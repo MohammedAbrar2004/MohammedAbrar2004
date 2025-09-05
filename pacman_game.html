@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pac-Man Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .game-container {
+            border: 4px solid #fff;
+            box-shadow: 0 0 20px #ff0;
+            background-color: #2c2f33;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .game-title {
+            font-size: 2rem;
+            color: #ff0;
+            margin-bottom: 1rem;
+        }
+
+        canvas {
+            border: 2px solid #fff;
+            background-color: #000;
+            touch-action: none;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0.5rem 0;
+            font-size: 1.25rem;
+        }
+
+        .game-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            display: none;
+            width: 80%;
+        }
+
+        .control-btn {
+            background-color: #ff0;
+            color: #000;
+            padding: 0.75rem;
+            border-radius: 9999px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.1s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        .control-btn:hover {
+            background-color: #ffff00;
+        }
+
+        .control-btn:active {
+            background-color: #e0e000;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-areas:
+                ". up ."
+                "left . right"
+                ". down .";
+            gap: 10px;
+            margin-top: 1.5rem;
+            width: 150px;
+        }
+
+        .up { grid-area: up; }
+        .down { grid-area: down; }
+        .left { grid-area: left; }
+        .right { grid-area: right; }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="game-title">PAC-MAN</h1>
+        <div class="game-info">
+            <span id="score-display">Score: 0</span>
+            <span id="high-score-display">High Score: 0</span>
+        </div>
+        <canvas id="gameCanvas" width="300" height="300"></canvas>
+        <div id="game-message" class="game-message"></div>
+        
+        <!-- On-screen controls for mobile -->
+        <div id="touch-controls" class="controls">
+            <button class="control-btn up" ontouchstart="handleTouch(0, -1)">▲</button>
+            <button class="control-btn left" ontouchstart="handleTouch(-1, 0)">◀</button>
+            <button class="control-btn right" ontouchstart="handleTouch(1, 0)">▶</button>
+            <button class="control-btn down" ontouchstart="handleTouch(0, 1)">▼</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('score-display');
+        const highScoreDisplay = document.getElementById('high-score-display');
+        const gameMessage = document.getElementById('game-message');
+
+        const gridSize = 15;
+        const tileCount = canvas.width / gridSize;
+        const maze = [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1],
+            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1],
+            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        ];
+
+        let pacman = { x: 1, y: 1, dx: 0, dy: 0, nextDx: 0, nextDy: 0 };
+        let ghosts = [{ x: 9, y: 5 }, { x: 10, y: 5 }];
+        let score = 0;
+        let dots = 0;
+        let isGameOver = false;
+        let highscore = localStorage.getItem('pacmanHighscore') || 0;
+        let lastKeyPressed = 'none';
+
+        // Count all dots
+        for (let row of maze) {
+            for (let cell of row) {
+                if (cell === 0) {
+                    dots++;
+                }
+            }
+        }
+        
+        // Display initial highscore
+        highScoreDisplay.textContent = `High Score: ${highscore}`;
+
+        function drawMaze() {
+            ctx.fillStyle = '#000080';
+            for (let y = 0; y < maze.length; y++) {
+                for (let x = 0; x < maze[y].length; x++) {
+                    if (maze[y][x] === 1) {
+                        ctx.fillRect(x * gridSize, y * gridSize, gridSize, gridSize);
+                    }
+                }
+            }
+        }
+
+        function drawDots() {
+            ctx.fillStyle = '#fff';
+            for (let y = 0; y < maze.length; y++) {
+                for (let x = 0; x < maze[y].length; x++) {
+                    if (maze[y][x] === 0) {
+                        ctx.beginPath();
+                        ctx.arc(x * gridSize + gridSize / 2, y * gridSize + gridSize / 2, 2, 0, 2 * Math.PI);
+                        ctx.fill();
+                    }
+                }
+            }
+        }
+
+        function drawPacman() {
+            ctx.fillStyle = '#ff0';
+            ctx.beginPath();
+            let startAngle, endAngle;
+            if (pacman.dx === 1) { startAngle = 0.25 * Math.PI; endAngle = 1.75 * Math.PI; } // Right
+            else if (pacman.dx === -1) { startAngle = 1.25 * Math.PI; endAngle = 0.75 * Math.PI; } // Left
+            else if (pacman.dy === 1) { startAngle = 0.75 * Math.PI; endAngle = 0.25 * Math.PI; } // Down
+            else if (pacman.dy === -1) { startAngle = 1.75 * Math.PI; endAngle = 1.25 * Math.PI; } // Up
+            else { startAngle = 0; endAngle = 2 * Math.PI; } // Idle
+            ctx.arc(pacman.x * gridSize + gridSize / 2, pacman.y * gridSize + gridSize / 2, gridSize / 2 - 2, startAngle, endAngle);
+            ctx.lineTo(pacman.x * gridSize + gridSize / 2, pacman.y * gridSize + gridSize / 2);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function drawGhosts() {
+            ctx.fillStyle = '#f00';
+            ghosts.forEach(ghost => {
+                ctx.beginPath();
+                ctx.arc(ghost.x * gridSize + gridSize / 2, ghost.y * gridSize + gridSize / 2, gridSize / 2 - 2, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+        }
+        
+        function update() {
+            if (isGameOver) return;
+            
+            // Handle next move
+            if (maze[pacman.y + pacman.nextDy]?.[pacman.x + pacman.nextDx] !== 1) {
+                pacman.dx = pacman.nextDx;
+                pacman.dy = pacman.nextDy;
+            }
+
+            // Move Pac-Man if the next tile is not a wall
+            if (maze[pacman.y + pacman.dy]?.[pacman.x + pacman.dx] !== 1) {
+                pacman.x += pacman.dx;
+                pacman.y += pacman.dy;
+            }
+
+            // Eat dot
+            if (maze[pacman.y][pacman.x] === 0) {
+                maze[pacman.y][pacman.x] = 2; // Change to eaten dot
+                score++;
+                dots--;
+                scoreDisplay.textContent = `Score: ${score}`;
+            }
+
+            // Move ghosts
+            ghosts.forEach(ghost => {
+                const possibleMoves = [];
+                if (maze[ghost.y][ghost.x + 1] !== 1) possibleMoves.push({ dx: 1, dy: 0 });
+                if (maze[ghost.y][ghost.x - 1] !== 1) possibleMoves.push({ dx: -1, dy: 0 });
+                if (maze[ghost.y + 1]?.[ghost.x] !== 1) possibleMoves.push({ dx: 0, dy: 1 });
+                if (maze[ghost.y - 1]?.[ghost.x] !== 1) possibleMoves.push({ dx: 0, dy: -1 });
+
+                const move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+                if (move) {
+                    ghost.x += move.dx;
+                    ghost.y += move.dy;
+                }
+            });
+
+            // Check for collision with ghosts
+            ghosts.forEach(ghost => {
+                if (pacman.x === ghost.x && pacman.y === ghost.y) {
+                    gameOver("Game Over!");
+                }
+            });
+
+            // Check for win condition
+            if (dots === 0) {
+                gameOver("You Win!");
+            }
+
+            draw();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawMaze();
+            drawDots();
+            drawPacman();
+            drawGhosts();
+        }
+
+        function gameOver(message) {
+            isGameOver = true;
+            clearInterval(gameLoopInterval);
+            gameMessage.textContent = message + " Click to play again.";
+            gameMessage.style.display = 'block';
+
+            if (score > highscore) {
+                highscore = score;
+                localStorage.setItem('pacmanHighscore', highscore);
+                highScoreDisplay.textContent = `High Score: ${highscore}`;
+            }
+        }
+        
+        function resetGame() {
+            isGameOver = false;
+            gameMessage.style.display = 'none';
+            score = 0;
+            scoreDisplay.textContent = `Score: ${score}`;
+            
+            // Re-create the maze and dots
+            maze.forEach((row, y) => {
+                row.forEach((cell, x) => {
+                    if (maze[y][x] === 2) {
+                        maze[y][x] = 0;
+                    }
+                });
+            });
+            dots = 0;
+            for (let row of maze) {
+                for (let cell of row) {
+                    if (cell === 0) {
+                        dots++;
+                    }
+                }
+            }
+
+            pacman = { x: 1, y: 1, dx: 0, dy: 0, nextDx: 0, nextDy: 0 };
+            ghosts = [{ x: 9, y: 5 }, { x: 10, y: 5 }];
+
+            startGameLoop();
+        }
+
+        function startGameLoop() {
+            if (gameLoopInterval) clearInterval(gameLoopInterval);
+            gameLoopInterval = setInterval(update, 200);
+        }
+
+        // Keyboard controls
+        document.addEventListener('keydown', e => {
+            if (isGameOver && e.key === 'Enter') {
+                resetGame();
+                return;
+            }
+            if (e.key === 'ArrowUp' && pacman.dy !== 1) { pacman.nextDy = -1; pacman.nextDx = 0; }
+            else if (e.key === 'ArrowDown' && pacman.dy !== -1) { pacman.nextDy = 1; pacman.nextDx = 0; }
+            else if (e.key === 'ArrowLeft' && pacman.dx !== 1) { pacman.nextDx = -1; pacman.nextDy = 0; }
+            else if (e.key === 'ArrowRight' && pacman.dx !== -1) { pacman.nextDx = 1; pacman.nextDy = 0; }
+        });
+        
+        // Touch controls
+        function handleTouch(newDx, newDy) {
+            if (isGameOver) {
+                resetGame();
+                return;
+            }
+            // Prevent Pac-Man from reversing
+            if (newDx !== -pacman.dx || newDy !== -pacman.dy) {
+                pacman.nextDx = newDx;
+                pacman.nextDy = newDy;
+            }
+        }
+
+        // Click on the canvas to start/restart
+        canvas.addEventListener('click', () => {
+            if (isGameOver) {
+                resetGame();
+            }
+        });
+
+        resetGame();
+    </script>
+</body>
+</html>
