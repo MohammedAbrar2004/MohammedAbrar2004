@@ -1,5 +1,4 @@
 <p align="center">
-  <img src="https://media.giphy.com/media/xT3kt6T19253d89j6E/giphy.gif" alt="AI Robot GIF" width="150" />
   <h1 align="center">Hey there! I'm Mohammed Abrar 👋</h1>
 </p>
 
@@ -23,12 +22,11 @@ Here are some of the technologies I love to work with.
 
 | Category | Technologies |
 | :--- | :--- |
-| **Frontend** | <img src="https://cdnl.iconscout.com/lottie/free/thumb/free-react-animated-icon-gif-download-6182433.gif" alt="React" width="50" /> |
+| **Frontend** |<img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" alt="HTML" width="50" /> <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Official_CSS_Logo.svg" alt="CSS" width="50" /> <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JS" width="50" /><img src="https://cdnl.iconscout.com/lottie/free/thumb/free-react-animated-icon-gif-download-6182433.gif" alt="React" width="50" />|
 | **Backend** | <img src="https://user-images.githubusercontent.com/74038190/212257460-738ff738-247f-4445-a718-cdd0ca76e2db.gif" alt="Node.js" width="50" /> |
-| **AI/ML** | <img src="https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUydHg2NnFzN3ByaG5veXJxazcwNGtxemsxczNxd20wYTRjaHVkdnRxNiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/KAq5w47R9rmTuvWOWa/source.gif" alt="Python" width="50" /> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/numpy/numpy-original.svg" alt="Numpy" width="50" /> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pandas/pandas-original.svg" alt="Pandas" width="50" /> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/keras/keras-original.svg" alt="Keras" width="50" /> <img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/spaCy.svg" alt="spaCy" width="50" /> |
-| **Databases** | <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" alt="Postgres" width="50" /> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/sqlite/sqlite-original.svg" alt="SQLite" width="50" /> <img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/sql.svg" alt="SQL" width="50" /> |
+| **AI/ML** | <img src="https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUydHg2NnFzN3ByaG5veXJxazcwNGtxemsxczNxd20wYTRjaHVkdnRxNiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/KAq5w47R9rmTuvWOWa/source.gif" alt="Python" width="50" /> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/numpy/numpy-original.svg" alt="Numpy" width="50" /> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pandas/pandas-original.svg" alt="Pandas" width="50" /> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/keras/keras-original.svg" alt="Keras" width="50" /> <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/SpaCy_logo.svg" alt="spaCy" width="50" /> |
+| **Databases** | <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" alt="Postgres" width="50" /> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/sqlite/sqlite-original.svg" alt="SQLite" width="50" /> <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Sql_data_base_with_logo.png" alt="SQL" width="50" /> |
 | **Computer Vision** | <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/opencv/opencv-original.svg" alt="OpenCV" width="50" /> |
-| **Cloud/Deployment** | <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original.svg" alt="AWS" width="50" /> |
 
 ---
 
@@ -39,8 +37,8 @@ Here are some of the technologies I love to work with.
 This is my coolest project yet! BizLedger is an intelligent business transaction recording app that lets you use your voice to manage finances. It uses **OpenAI's Whisper** for speech-to-text and **Claude AI** for smart parsing and SQL query generation.
 
 -   **Features**: Voice Recording, AI Transcription, Smart Parsing, SQL Generation, Cross-Platform (React Native + FastAPI).
--   **Check it out**: [Link to BizLedger Repo](https://github.com/your-username/bizledger)
-> **NOTE**: Feel free to add a GIF or screenshot of the app here!
+-   **Check it out**: [Link to BizLedger Repo](https://github.com/MohammedAbrar2004/BizLedger)
+
 
 ---
 
@@ -49,8 +47,7 @@ This is my coolest project yet! BizLedger is an intelligent business transaction
 I built a sophisticated, production-ready fact-checking platform that combines advanced LLM processing and a unique weighted scoring system to verify claims with comprehensive confidence scores.
 
 -   **Features**: Weighted Scoring, Composite Confidence Scoring, 50+ Categorized News Sources, Geographic Intelligence, and Temporal Analysis.
--   **Check it out**: [Link to truthScope Repo](https://github.com/your-username/truthscope)
-> **NOTE**: Feel free to add a GIF or screenshot of the platform here!
+-   **Check it out**: [Link to truthScope Repo](https://github.com/MohammedAbrar2004/Mini-Project)
 
 ---
 
