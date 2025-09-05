@@ -78,7 +78,7 @@ I'm always open to new opportunities and collaborations. You can find me here:
 </p>
 
 <p align="left">
-  **I'm also a proud GDGC organizer for MJCET!** 🗣️
+  I'm also a proud GDGC organizer for MJCET! 🗣️
 </p>
 
 ---
