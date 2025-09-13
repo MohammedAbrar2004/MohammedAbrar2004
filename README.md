@@ -73,7 +73,7 @@ I'm always open to new opportunities and collaborations. You can find me here:
     <img src="https://img.shields.io/badge/LeetCode-black?style=for-the-badge&logo=leetcode&logoColor=yellow" alt="LeetCode" />
   </a>
   <a href="mailto:abrarfarooque22@gmail.com">
-    <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Gmail" />
+
   </a>
 </p>
 
