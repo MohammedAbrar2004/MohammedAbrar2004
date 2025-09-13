@@ -82,6 +82,4 @@ I'm always open to new opportunities and collaborations. You can find me here:
 </p>
 
 ---
-<p align="center">
-  <img src="https://media.giphy.com/media/d9N3D34B0B7sM/giphy.gif" alt="Coding Cat GIF" width="100" />
-</p>
+
